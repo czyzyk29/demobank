@@ -32,9 +32,14 @@ test.describe('Test group pulpit ', () => {
   });
 
   test('successful mobile pop-up', async ({ page }) => {
-    await page.goto('https://demo-bank.vercel.app/');
-    await page.getByTestId('login-input').fill('testerte');
-    await page.getByTestId('password-input').fill('password');
+
+    const url = 'https://demo-bank.vercel.app/';
+    const userId = 'testerte';
+    const userPassword = 'polakama';
+    
+    await page.goto(url);
+    await page.getByTestId('login-input').fill(userId);
+    await page.getByTestId('password-input').fill(userPassword);
     await page.getByTestId('login-button').click();
 
     await page.locator('#widget_1_topup_receiver').selectOption('500 xxx xxx');
