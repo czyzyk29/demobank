@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Test group pulpit ', () => {
-  test('quick payment', async ({ page }) => {
+  test.only('quick payment', async ({ page }) => {
     //Arange
 
     const url = 'https://demo-bank.vercel.app/';
@@ -11,7 +11,7 @@ test.describe('Test group pulpit ', () => {
     const reciverId = '2';
     const transferTitle = 'pizza';
     const transferAmount = '150';
-    const expectedTransferReceiver = 'Chuck Demobankowy';
+    const expectedTransferReceiver = 'bug Chuck Demobankowy';
 
     //Act
     await page.goto(url);
