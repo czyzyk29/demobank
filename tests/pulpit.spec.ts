@@ -1,25 +1,39 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Test group pulpit ", () => {
-  test("quit payment", async ({ page }) => {
-    await page.goto("https://demo-bank.vercel.app/");
-    await page.getByTestId("login-input").fill("testerte");
-    await page.getByTestId("password-input").fill("password");
+  test("quick payment", async ({ page }) => {
+    //Arange
+
+    const url = "https://demo-bank.vercel.app/";
+    const userId = "testerte";
+    const userPassword = "polakama";
+
+    const reciverId = "2";
+    const transferTitle = "pizza";
+    const transferAmount = "150";
+    const expectedTransferReceiver= "Chuck Demobankowy" ;
+
+    //Act
+    await page.goto(url);
+    await page.getByTestId("login-input").fill(userId);
+    await page.getByTestId("password-input").fill(userPassword);
     await page.getByTestId("login-button").click();
 
-    await page.locator("#widget_1_transfer_receiver").selectOption("2");
-    await page.locator("#widget_1_transfer_amount").fill("150");
-    await page.locator("#widget_1_transfer_title").fill("pizza");
+
+
+    await page.locator("#widget_1_transfer_receiver").selectOption(reciverId);
+    await page.locator("#widget_1_transfer_amount").fill(transferAmount);
+    await page.locator("#widget_1_transfer_title").fill(transferTitle);
 
     await page.locator("#execute_btn").click();
     await page.getByTestId("close-button").click();
 
     await expect(page.locator("#show_messages")).toHaveText(
-      "Przelew wykonany! Chuck Demobankowy - 150,00PLN - pizza"
+      `Przelew wykonany! ${expectedTransferReceiver} - ${transferAmount},00PLN - ${transferTitle}`
     );
   });
 
-  test.only("successful mobile pop-up", async ({ page }) => {
+  test("successful mobile pop-up", async ({ page }) => {
     await page.goto("https://demo-bank.vercel.app/");
     await page.getByTestId("login-input").fill("testerte");
     await page.getByTestId("password-input").fill("password");
