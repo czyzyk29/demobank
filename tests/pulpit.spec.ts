@@ -50,4 +50,24 @@ test.describe('Test group pulpit ', () => {
       page.getByRole('link', { name: 'Doładowanie wykonane! 100,' }),
     ).toHaveText(expetedMessage);
   });
+
+  test('correct balance successful mobile pop-up', async ({ page }) => {
+    // Arrange
+    const topUpReciverNumber = '500 xxx xxx';
+    const topUpAmount = '100';
+
+    const initialBalance = await page.locator('#money_value').innerText();
+    const expectedBalance = Number(initialBalance) - Number(topUpAmount);
+
+    //Act
+    await page
+      .locator('#widget_1_topup_receiver')
+      .selectOption(topUpReciverNumber);
+    await page.locator('#widget_1_topup_amount').fill(topUpAmount);
+    await page.locator('#uniform-widget_1_topup_agreement span').click();
+    await page.getByRole('button', { name: 'doładuj telefon' }).click();
+
+    //Assert
+    await expect(page.locator('#money_value')).toHaveText(`${expectedBalance}`);
+  });
 });
