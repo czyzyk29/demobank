@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
+import { loginData } from '../test-data/login.data';
 
 test.describe('Test group pulpit ', () => {
   test.beforeEach(async ({ page }) => {
-    const userId = 'testerte';
-    const userPassword = 'polakama';
+    const userId = loginData.userId;
+    const userPassword = loginData.userPass;
 
     await page.goto('/');
     await page.getByTestId('login-input').fill(userId);
