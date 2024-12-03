@@ -39,13 +39,13 @@ test.describe('User Login', () => {
     // Arrange
     const url = 'https://demo-bank.vercel.app/';
     const userId = 'tester12';
-    const userPassword = 'pola';
+    const incorrectUserPassword = 'pola';
     const expectedErrorMessage = 'hasło ma min. 8 znaków';
 
     //Act
     await page.goto(url);
     await page.getByTestId('login-input').fill(userId);
-    await page.getByTestId('password-input').fill(userPassword);
+    await page.getByTestId('password-input').fill(incorrectUserPassword);
     await page.getByTestId('password-input').blur();
 
     //Assert
