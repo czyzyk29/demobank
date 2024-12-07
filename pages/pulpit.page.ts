@@ -15,12 +15,12 @@ export class PulpitPage {
   topupButton: Locator;
   topupReceiverInput: Locator;
   paymentButton: Locator;
+  userName: Locator;
   sideBar: SideBar;
   constructor(private page: Page) {
+    this.sideBar = new SideBar(this.page);
 
-
-    this.sideBar = new SideBar(this.page) 
-    
+    this.userName = this.page.getByTestId('user-name');
     this.widgetTransferReciver = this.page.locator(
       '#widget_1_transfer_receiver',
     );
@@ -35,7 +35,9 @@ export class PulpitPage {
       '#uniform-widget_1_topup_agreement span',
     );
     this.moneyValue = this.page.locator('#money_value');
-    this.topupButton = this.page.getByRole('button', { name: 'doładuj telefon' })
-    this.topupReceiverInput = this.page.locator('#widget_1_topup_receiver');  
-}
+    this.topupButton = this.page.getByRole('button', {
+      name: 'doładuj telefon',
+    });
+    this.topupReceiverInput = this.page.locator('#widget_1_topup_receiver');
+  }
 }

@@ -5,21 +5,22 @@ import { PaymentPage } from '../pages/payment.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('User Payments', () => {
+  let loginPage: LoginPage;
+  let paymentPage: PaymentPage;
+
   test.beforeEach(async ({ page }) => {
     //Arange
     const userId = loginData.userId;
     const userPassword = loginData.userPass;
-
+    paymentPage = new PaymentPage(page);
+    loginPage = new LoginPage(page);
     //Act
     await page.goto('/');
-    const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
 
-    const pulpitPage = new PulpitPage(page)
-    await pulpitPage.sideBar.paymentButton.click()
+    await loginPage.login(userId, userPassword);
 
+    const pulpitPage = new PulpitPage(page);
+    await pulpitPage.sideBar.paymentButton.click();
   });
 
   test('simple payment', async ({ page }) => {
@@ -29,14 +30,9 @@ test.describe('User Payments', () => {
     const accountTo = '12 3321 2312 3123 4324 3243 2432';
     const expectedMessage = `Przelew wykonany! ${amount},00PLN dla ${transferReceiver}`;
 
-    const paymentPage = new PaymentPage(page);
-
     //Act
-    await paymentPage.transferReceiver.fill(transferReceiver);
-    await paymentPage.formAccountTo.fill(accountTo);
-    await paymentPage.formAmount.fill(amount);
-    await paymentPage.transferButton.click();
-    await paymentPage.closeButton.click();
+    await paymentPage.maketransfer(transferReceiver, accountTo, amount);
+
     //Assert
     await expect(paymentPage.messages).toHaveText(expectedMessage);
   });

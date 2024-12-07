@@ -4,15 +4,17 @@ import { LoginPage } from '../pages/login.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('Test group pulpit ', () => {
+  let pulpitPage: PulpitPage;
+
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
     const userPassword = loginData.userPass;
 
+    pulpitPage = new PulpitPage(page);
+
     await page.goto('/');
     const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+    await loginPage.login(userId, userPassword);
   });
   test('quick payment', async ({ page }) => {
     //Arange
@@ -21,8 +23,6 @@ test.describe('Test group pulpit ', () => {
     const transferAmount = '150';
     const expectedTransferReceiver = 'Chuck Demobankowy';
 
-    const pulpitPage = new PulpitPage(page);
-    
     //Act
     await pulpitPage.widgetTransferReciver.selectOption(reciverId);
     await pulpitPage.widget1TransferAmount.fill(transferAmount);
@@ -42,10 +42,9 @@ test.describe('Test group pulpit ', () => {
     const topUpReciverNumber = '500 xxx xxx';
     const topUpAmount = '100';
     const expetedMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpReciverNumber}`;
-    const pulpitPage = new PulpitPage(page);
+
     //Act
-    await pulpitPage.widget1TopupReceiver
-      .selectOption(topUpReciverNumber);
+    await pulpitPage.widget1TopupReceiver.selectOption(topUpReciverNumber);
     await pulpitPage.widget1TopupAmount.fill(topUpAmount);
     await pulpitPage.uniformWidget1TopupAgreement.click();
     await pulpitPage.topupButton.click();
@@ -63,10 +62,9 @@ test.describe('Test group pulpit ', () => {
 
     const initialBalance = await page.locator('#money_value').innerText();
     const expectedBalance = Number(initialBalance) - Number(topUpAmount);
-    const pulpitPage = new PulpitPage(page);
+
     //Act
-    await pulpitPage.topupReceiverInput
-      .selectOption(topUpReciverNumber);
+    await pulpitPage.topupReceiverInput.selectOption(topUpReciverNumber);
     await pulpitPage.widget1TopupAmount.fill(topUpAmount);
     await pulpitPage.uniformWidget1TopupAgreement.click();
     await pulpitPage.topupButton.click();
