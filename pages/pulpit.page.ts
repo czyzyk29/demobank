@@ -40,4 +40,25 @@ export class PulpitPage {
     });
     this.topupReceiverInput = this.page.locator('#widget_1_topup_receiver');
   }
+
+  async executeQuickPayment(
+    reciverId: string,
+    transferAmount: string,
+    transferTitle: string,
+  ): Promise<void> {
+    await this.widgetTransferReciver.selectOption(reciverId);
+    await this.widget1TransferAmount.fill(transferAmount);
+    await this.widget1TransferTitle.fill(transferTitle);
+    await this.executeBtn.click();
+    await this.closeButton.click();
+  }
+  async executeMobileTopUp(
+    topUpReciverNumber: string,
+    topUpAmount: string,
+  ): Promise<void> {
+    await this.widget1TopupReceiver.selectOption(topUpReciverNumber);
+    await this.widget1TopupAmount.fill(topUpAmount);
+    await this.uniformWidget1TopupAgreement.click();
+    await this.topupButton.click();
+  }
 }
