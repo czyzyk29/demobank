@@ -1,4 +1,5 @@
 import { Locator, Page } from '@playwright/test';
+import { SideBar } from '../components/sideBar.page';
 
 export class PaymentPage {
   transferReceiver: Locator;
@@ -7,7 +8,11 @@ export class PaymentPage {
   closeButton: Locator;
   messages: Locator;
   transferButton: Locator;
+  sideBar: SideBar;
   constructor(private page: Page) {
+
+    this.sideBar = new SideBar(this.page) 
+
     this.transferReceiver = this.page.getByTestId('transfer_receiver');
     this.formAccountTo = this.page.getByTestId('form_account_to');
     this.formAmount = this.page.getByTestId('form_amount');

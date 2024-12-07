@@ -1,4 +1,5 @@
 import { Locator, Page } from '@playwright/test';
+import { SideBar } from '../components/sideBar.page';
 
 export class PulpitPage {
   widgetTransferReciver: Locator;
@@ -13,8 +14,13 @@ export class PulpitPage {
   moneyValue: Locator;
   topupButton: Locator;
   topupReceiverInput: Locator;
-
+  paymentButton: Locator;
+  sideBar: SideBar;
   constructor(private page: Page) {
+
+
+    this.sideBar = new SideBar(this.page) 
+    
     this.widgetTransferReciver = this.page.locator(
       '#widget_1_transfer_receiver',
     );
