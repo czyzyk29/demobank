@@ -7,7 +7,12 @@
     "test:headed": "npx playwright test --headed",
     "test:pulpit": "npm run test tests/pulpit.spec.ts -- --headed",
     "test:login": "npm run test tests/login.spec.ts -- --headed",
-    "report": "npx playwright show-report"
+    "report": "npx playwright show-report",
+    "test:tag_login": "npx playwright test --grep \"@login\"",
+    "test:tag_payment": "npx playwright test --grep \"@payment\"",
+    "test:tag_smoke": "npx playwright test --grep \"@smoke\"",
+    "test:tag_pulpit": "npx playwright test --grep \"@pulpit\""
+    
   },
   "keywords": [],
   "author": "",

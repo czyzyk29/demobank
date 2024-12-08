@@ -16,7 +16,7 @@ test.describe('Test group pulpit ', () => {
     const loginPage = new LoginPage(page);
     await loginPage.login(userId, userPassword);
   });
-  test('quick payment', async ({ page }) => {
+  test('quick payment', { tag: ['@pulpit', '@smoke'] }, async ({ page }) => {
     //Arange
     const reciverId = '2';
     const transferTitle = 'pizza';
@@ -27,7 +27,7 @@ test.describe('Test group pulpit ', () => {
     await pulpitPage.executeQuickPayment(
       reciverId,
       transferAmount,
-      transferTitle
+      transferTitle,
     );
 
     //Assert
@@ -36,7 +36,7 @@ test.describe('Test group pulpit ', () => {
     );
   });
 
-  test('successful mobile pop-up', async ({ page }) => {
+  test('successful mobile pop-up', { tag: ['@pulpit'] }, async ({ page }) => {
     // Arrange
     const topUpReciverNumber = '500 xxx xxx';
     const topUpAmount = '100';
@@ -51,18 +51,22 @@ test.describe('Test group pulpit ', () => {
     ).toHaveText(expetedMessage);
   });
 
-  test('correct balance successful mobile pop-up', async ({ page }) => {
-    // Arrange
-    const topUpReciverNumber = '500 xxx xxx';
-    const topUpAmount = '100';
+  test(
+    'correct balance successful mobile pop-up',
+    { tag: ['@pulpit'] },
+    async ({ page }) => {
+      // Arrange
+      const topUpReciverNumber = '500 xxx xxx';
+      const topUpAmount = '100';
 
-    const initialBalance = await page.locator('#money_value').innerText();
-    const expectedBalance = Number(initialBalance) - Number(topUpAmount);
+      const initialBalance = await page.locator('#money_value').innerText();
+      const expectedBalance = Number(initialBalance) - Number(topUpAmount);
 
-    //Act
-    await pulpitPage.executeMobileTopUp(topUpReciverNumber, topUpAmount);
+      //Act
+      await pulpitPage.executeMobileTopUp(topUpReciverNumber, topUpAmount);
 
-    //Assert
-    await expect(pulpitPage.moneyValue).toHaveText(`${expectedBalance}`);
-  });
+      //Assert
+      await expect(pulpitPage.moneyValue).toHaveText(`${expectedBalance}`);
+    },
+  );
 });

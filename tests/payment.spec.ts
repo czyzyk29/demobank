@@ -23,7 +23,7 @@ test.describe('User Payments', () => {
     await pulpitPage.sideBar.paymentButton.click();
   });
 
-  test('simple payment', async ({ page }) => {
+  test('simple payment', { tag: ['@payment', '@smoke'] }, async ({ page }) => {
     //Arange
     const transferReceiver = 'jan nowak';
     const amount = '222';
